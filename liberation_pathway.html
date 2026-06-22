@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Liberation Pathway</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --p1: #B83225;
+    --p2: #2E7D32;
+    --p3: #1A4F8A;
+    --text: #1a1a1a;
+    --muted: #555;
+    --bg: #f5f4f1;
+    --card-bg: #fff;
+    --radius: 12px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 40px;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 28px 20px 18px;
+    background: var(--card-bg);
+    border-bottom: 1px solid #e0ddd8;
+  }
+  .page-header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .page-header p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .dir-label {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #999;
+    padding: 12px 0 4px;
+  }
+
+  .tier {
+    margin: 8px 12px;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .tier-p3 { background: var(--p3); }
+  .tier-p2 { background: var(--p2); }
+  .tier-p1 { background: var(--p1); }
+
+  .tier-header {
+    padding: 18px 16px 14px;
+  }
+  .tier-phase {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 4px;
+  }
+  .tier-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .tier-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 16px;
+  }
+
+  .re-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+
+  .re-btn {
+    background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 9px;
+    padding: 11px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 56px;
+  }
+  .re-btn:active { background: rgba(255,255,255,0.25); }
+  .re-btn.active {
+    background: rgba(255,255,255,0.26);
+    border-color: rgba(255,255,255,0.55);
+  }
+  .re-word {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .re-hint {
+    display: block;
+    font-size: 10px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+  .re-btn.active .re-hint { color: rgba(255,255,255,0.8); }
+
+  .steps-panel {
+    display: none;
+    padding: 0 14px 14px;
+  }
+  .steps-panel.open { display: block; }
+
+  .steps-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    margin: 0 0 12px;
+  }
+
+  .step-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 8px;
+    padding: 0 2px;
+  }
+
+  .step-card {
+    background: rgba(255,255,255,0.11);
+    border: 0.5px solid rgba(255,255,255,0.18);
+    border-radius: 9px;
+    padding: 12px 13px;
+    margin-bottom: 8px;
+  }
+  .step-card:last-child { margin-bottom: 0; }
+
+  .step-num {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 5px;
+  }
+  .step-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.93);
+  }
+
+  .legend {
+    padding: 16px 14px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .legend-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .attrib {
+    text-align: center;
+    font-size: 11px;
+    color: #aaa;
+    padding: 18px 20px 0;
+    font-style: italic;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text: #f0ede8;
+      --muted: #aaa;
+      --bg: #1a1a1a;
+      --card-bg: #242424;
+    }
+    body { background: var(--bg); }
+    .page-header { background: var(--card-bg); border-color: #333; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Liberation Pathway</h1>
+  <p>Tap any word to expand your steps</p>
+</div>
+
+<div class="dir-label">↑ progression ↑</div>
+
+<div class="tier tier-p3">
+  <div class="tier-header">
+    <p class="tier-phase">Phase 3 · Cortical</p>
+    <p class="tier-name">Reason</p>
+    <p class="tier-sub">Rebuild · Identity &amp; Purpose</p>
+    <div class="re-grid">
+      <button class="re-btn" onclick="toggle('reclaim')" id="btn-reclaim">
+        <span class="re-word">Reclaim</span>
+        <span class="re-hint">Who you really are</span>
+      </button>
+      <button class="re-btn" onclick="toggle('reframe')" id="btn-reframe">
+        <span class="re-word">Reframe</span>
+        <span class="re-hint">Your story</span>
+      </button>
+      <button class="re-btn" onclick="toggle('redeem')" id="btn-redeem">
+        <span class="re-word">Redeem</span>
+        <span class="re-hint">Your pain</span>
+      </button>
+      <button class="re-btn" onclick="toggle('renovate')" id="btn-renovate">
+        <span class="re-word">Renovate</span>
+        <span class="re-hint">Your life design</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="steps-panel" id="steps-reclaim">
+    <div class="steps-divider"></div>
+    <p class="step-label">Reclaim · Who you really are</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Write down three things that felt true about you before the trauma or addiction took hold. They don't have to be big.</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Name one interest, value, or dream you pushed aside just to survive. Acknowledge that you had to do that.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Once a week, keep one promise you made to yourself, no matter how small. Notice how that feels.</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">The next time you automatically say yes to keep the peace, pause first. Ask yourself what you actually want.</p></div>
+  </div>
+
+  <div class="steps-panel" id="steps-reframe">
+    <div class="steps-divider"></div>
+    <p class="step-label">Reframe · Your story</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Name the story your pain tells about you. Examples: "I ruin everything," "I'm too much," "I don't deserve good things."</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Look for even one small piece of evidence that contradicts that story. It doesn't have to be perfect evidence.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Practice saying: "This happened to me, but it doesn't define what I am." Say it even when it doesn't feel true yet.</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">Ask yourself what your experience has quietly taught you — things like empathy, pattern recognition, or the ability to read a room. Those are real skills.</p></div>
+  </div>
+
+  <div class="steps-panel" id="steps-redeem">
+    <div class="steps-divider"></div>
+    <p class="step-label">Redeem · Your pain</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Think of one person who is earlier on the same path you've been on. You don't have to do anything yet. Just hold them in mind.</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Finish this sentence: "Because of what I've been through, I want to..." Let it be honest, not heroic.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">When you feel ready, find one small way to witness someone else's struggle without trying to fix it. Presence is enough.</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">Consider what role you might play in your community as someone who has survived. You get to define what that looks like.</p></div>
+  </div>
+
+  <div class="steps-panel" id="steps-renovate">
+    <div class="steps-divider"></div>
+    <p class="step-label">Renovate · Your life design</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Look honestly at your current relationships. Which ones reinforce the old version of you? Which ones make room for who you're becoming?</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Identify one structural change in your life that would better reflect your values now, whether that's a routine, a place, or a relationship.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Write a simple 90-day becoming plan. Not a recovery plan. A growth plan. What do you want to be moving toward?</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">Celebrate one real milestone with at least one other person. Let them witness it. Breaking silence is part of the healing.</p></div>
+  </div>
+</div>
+
+<div class="tier tier-p2">
+  <div class="tier-header">
+    <p class="tier-phase">Phase 2 · Relational</p>
+    <p class="tier-name">Relate</p>
+    <p class="tier-sub">Reanimate · Connection &amp; Self-Kindness</p>
+    <div class="re-grid">
+      <button class="re-btn" onclick="toggle('reunite')" id="btn-reunite">
+        <span class="re-word">Reunite</span>
+        <span class="re-hint">With yourself</span>
+      </button>
+      <button class="re-btn" onclick="toggle('realign')" id="btn-realign">
+        <span class="re-word">Realign</span>
+        <span class="re-hint">Your values</span>
+      </button>
+      <button class="re-btn" onclick="toggle('reprogram')" id="btn-reprogram">
+        <span class="re-word">Reprogram</span>
+        <span class="re-hint">The inner critic</span>
+      </button>
+      <button class="re-btn" onclick="toggle('reinforce')" id="btn-reinforce">
+        <span class="re-word">Reinforce</span>
+        <span class="re-hint">Safe connections</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="steps-panel" id="steps-reunite">
+    <div class="steps-divider"></div>
+    <p class="step-label">Reunite · With yourself</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Write down three things that were true about you before the wound. Who were you trying to become?</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Name one interest or belief you suppressed because it wasn't safe to show. Just naming it is a step.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Once a week, do one thing purely because you enjoy it, not because it helps anyone else or proves anything.</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">The next time you catch yourself becoming whoever the room needs, notice it. You don't have to change it yet. Just notice.</p></div>
+  </div>
+
+  <div class="steps-panel" id="steps-realign">
+    <div class="steps-divider"></div>
+    <p class="step-label">Realign · Your values</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Name three things you actually value, not what you think you should value. Honesty, creativity, safety, freedom. Your list is yours.</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Notice the next time a situation pushes against one of those values. You don't have to act yet. Just name it to yourself.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Write one boundary you've never enforced and draft what it would actually sound like out loud. Practice saying it alone first.</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">Learn the difference between guilt (I did something that hurt someone) and shame (I am something wrong). They are not the same feeling.</p></div>
+  </div>
+
+  <div class="steps-panel" id="steps-reprogram">
+    <div class="steps-divider"></div>
+    <p class="step-label">Reprogram · The inner critic</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Write down the five things your inner critic says most often. Get specific. "You're so stupid" or "You always ruin it."</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">For each one, ask: whose voice is this really? When did you first hear someone say this to you or about you?</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Find a counter-statement that is honest, not fake-positive. Not "I'm amazing" but "That's one voice, not the whole truth."</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">When you catch yourself using harsh self-talk, try replacing it with something you'd say to a friend in the same situation.</p></div>
+  </div>
+
+  <div class="steps-panel" id="steps-reinforce">
+    <div class="steps-divider"></div>
+    <p class="step-label">Reinforce · Safe connections</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Think of one person in your life who has been consistently safe, meaning they don't judge, dismiss, or use what you share against you.</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Share one small, low-stakes true thing with that person. See what happens. You're gathering evidence about safety.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Start noticing when someone reaches out to you. A text, a joke, a check-in. Those are bids for connection. Notice them before you brush them off.</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">After a genuinely good interaction, pause before minimizing it. Let it land for a moment. Your nervous system needs practice receiving good things.</p></div>
+  </div>
+</div>
+
+<div class="tier tier-p1">
+  <div class="tier-header">
+    <p class="tier-phase">Phase 1 · Somatic foundation</p>
+    <p class="tier-name">Regulate</p>
+    <p class="tier-sub">Rescue &amp; Resuscitate · Body &amp; Safety</p>
+    <div class="re-grid">
+      <button class="re-btn" onclick="toggle('reboot')" id="btn-reboot">
+        <span class="re-word">Reboot</span>
+        <span class="re-hint">Your nervous system</span>
+      </button>
+      <button class="re-btn" onclick="toggle('regenerate')" id="btn-regenerate">
+        <span class="re-word">Regenerate</span>
+        <span class="re-hint">Physical self-care</span>
+      </button>
+      <button class="re-btn" onclick="toggle('recuperate')" id="btn-recuperate">
+        <span class="re-word">Recuperate</span>
+        <span class="re-hint">Rest without guilt</span>
+      </button>
+      <button class="re-btn" onclick="toggle('reconstitute')" id="btn-reconstitute">
+        <span class="re-word">Reconstitute</span>
+        <span class="re-hint">Safe structure</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="steps-panel" id="steps-reboot">
+    <div class="steps-divider"></div>
+    <p class="step-label">Reboot · Your nervous system</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Learn your own stress signals. Tight jaw, racing heart, shallow breath, or going blank. Get curious about what your body does first.</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Pick one consistent time to wake up each day. Even on hard days. Your nervous system responds to predictability.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Practice one grounding technique daily. Try naming five things you can see, four you can touch, three you can hear. Stay with it for two minutes.</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">Ask yourself: what does calm actually feel like in my body? Build a sensory memory of safety so you have something to return to.</p></div>
+  </div>
+
+  <div class="steps-panel" id="steps-regenerate">
+    <div class="steps-divider"></div>
+    <p class="step-label">Regenerate · Physical self-care</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Aim for one nourishing meal a day that you eat sitting down, without a screen. That's it. Start there.</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Find one form of movement that doesn't feel like punishment. Walking, stretching, dancing alone. It counts.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Track water, sleep, and food as information, not performance. You're learning what your body needs, not grading yourself.</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">Start noticing the difference between a physical craving and a physical need. They feel different. Practice telling them apart.</p></div>
+  </div>
+
+  <div class="steps-panel" id="steps-recuperate">
+    <div class="steps-divider"></div>
+    <p class="step-label">Recuperate · Rest without guilt</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Name the belief that makes rest feel wrong. "I haven't earned it." "I'll fall apart." "People will think I'm lazy." Just name it.</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Schedule one rest period this week that you protect like an appointment. Not optional, not earned. Just yours.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Notice the difference between numbing (substances, scrolling to go numb) and actual rest (something that leaves you feeling more like yourself).</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">Practice saying "my body needs this" without adding a justification. You don't owe an explanation for rest.</p></div>
+  </div>
+
+  <div class="steps-panel" id="steps-reconstitute">
+    <div class="steps-divider"></div>
+    <p class="step-label">Reconstitute · Safe structure</p>
+    <div class="step-card"><p class="step-num">Step 1</p><p class="step-text">Pick one daily ritual that signals safety to your body — morning coffee, an evening walk, a consistent bedtime. Make it reliable.</p></div>
+    <div class="step-card"><p class="step-num">Step 2</p><p class="step-text">Remove one thing from your immediate environment that reliably pulls you toward a harmful pattern. Even a small change counts.</p></div>
+    <div class="step-card"><p class="step-num">Step 3</p><p class="step-text">Write a simple crisis plan. Who do I call? What do I do first? Where can I go? Have it somewhere you can find it fast.</p></div>
+    <div class="step-card"><p class="step-num">Step 4</p><p class="step-text">Ask yourself: what does "safe enough" look like for me right now? Not perfect. Not healed. Just safe enough for today.</p></div>
+  </div>
+</div>
+
+<div class="dir-label" style="padding:10px 0 6px">↓ foundation ↓</div>
+
+<div class="legend">
+  <div class="legend-row"><div class="legend-dot" style="background:#B83225"></div>Phase 1 · Regulate — Body &amp; Safety</div>
+  <div class="legend-row"><div class="legend-dot" style="background:#2E7D32"></div>Phase 2 · Relate — Connection &amp; Self-Kindness</div>
+  <div class="legend-row"><div class="legend-dot" style="background:#1A4F8A"></div>Phase 3 · Reason — Identity &amp; Purpose</div>
+</div>
+
+<p class="attrib">Based on Pete Walker's CPTSD developmental arrest model · Precision Pathways</p>
+
+<script>
+function toggle(key) {
+  var panel = document.getElementById('steps-' + key);
+  var btn = document.getElementById('btn-' + key);
+  var isOpen = panel.classList.contains('open');
+  if (isOpen) {
+    panel.classList.remove('open');
+    btn.classList.remove('active');
+  } else {
+    panel.classList.add('open');
+    btn.classList.add('active');
+  }
+}
+</script>
+</body>
+</html>
