@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Liberation Pathway: Elementary School Campus</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.min.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --f1-a: #DC2626; --f1-b: #F97316;
+    --f2-a: #F97316; --f2-b: #EAB308;
+    --f3-a: #22C55E; --f3-b: #15803D;
+    --f4-a: #3B82F6; --f4-b: #8B5CF6;
+    --white-10: rgba(255,255,255,0.10);
+    --white-15: rgba(255,255,255,0.15);
+    --white-20: rgba(255,255,255,0.20);
+    --white-60: rgba(255,255,255,0.60);
+    --white-75: rgba(255,255,255,0.75);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0f0f13;
+    color: #fff;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+  }
+
+  /* HEADER */
+  .master-header {
+    background: linear-gradient(135deg, #0f0f13 0%, #1a1a2e 40%, #16213e 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .master-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--white-60);
+    margin-bottom: 1rem;
+  }
+  .header-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, #fff 30%, rgba(139,92,246,0.9) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header-subtitle {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--white-75);
+    font-weight: 400;
+    max-width: 680px;
+    margin: 0 auto 1.75rem;
+    line-height: 1.65;
+  }
+  .header-thesis {
+    display: inline-block;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    font-weight: 600;
+    color: #fff;
+    max-width: 680px;
+    line-height: 1.5;
+  }
+  .header-thesis span {
+    background: linear-gradient(90deg, #f97316, #eab308);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .model-tag-row {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 1.5rem 0 0;
+  }
+  .model-tag {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--white-75);
+  }
+
+  /* THREE R's BANNER */
+  .three-r-bar {
+    max-width: 900px;
+    margin: 2rem auto 0;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .r-card {
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .r-card.regulate { background: linear-gradient(135deg, rgba(220,38,38,0.25), rgba(249,115,22,0.25)); }
+  .r-card.relate   { background: linear-gradient(135deg, rgba(34,197,94,0.25), rgba(21,128,61,0.25)); }
+  .r-card.reason   { background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(139,92,246,0.25)); }
+  .r-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #fff;
+    margin-bottom: 0.2rem;
+  }
+  .r-floors {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* BUILDING */
+  .building-wrapper {
+    max-width: 900px;
+    margin: 1.5rem auto 0;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* FLOOR CARD */
+  .floor-card {
+    border-radius: 0;
+    overflow: hidden;
+    margin-bottom: 6px;
+    position: relative;
+    transition: box-shadow 0.3s ease;
+  }
+  .floor-card:first-child { border-radius: 14px 14px 0 0; }
+  .floor-card:last-child  { border-radius: 0 0 14px 14px; }
+
+  .floor-card.f1 { background: linear-gradient(135deg, var(--f1-a), var(--f1-b)); }
+  .floor-card.f2 { background: linear-gradient(135deg, var(--f2-a), var(--f2-b)); }
+  .floor-card.f3 { background: linear-gradient(135deg, var(--f3-a), var(--f3-b)); }
+  .floor-card.f4 { background: linear-gradient(135deg, var(--f4-a), var(--f4-b)); }
+
+  .floor-card.open { box-shadow: 0 0 0 2px rgba(255,255,255,0.35), 0 20px 60px rgba(0,0,0,0.5); }
+
+  /* FLOOR TRIGGER */
+  .floor-trigger {
+    width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    text-align: left;
+    transition: background 0.2s ease;
+  }
+  .floor-trigger:hover { background: rgba(255,255,255,0.07); }
+  .floor-trigger:focus-visible { outline: 2px solid rgba(255,255,255,0.7); outline-offset: -2px; }
+
+  .floor-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.25);
+    line-height: 1;
+    min-width: 2.5rem;
+    flex-shrink: 0;
+    user-select: none;
+  }
+  .floor-title-block { flex: 1; min-width: 0; }
+  .floor-main-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(0.85rem, 2.5vw, 1.15rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 0.2rem;
+  }
+  .floor-subtitle {
+    font-size: clamp(0.72rem, 1.8vw, 0.82rem);
+    font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.35;
+  }
+  .floor-perry-badge {
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 0.3rem 0.85rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .chevron {
+    width: 22px; height: 22px;
+    flex-shrink: 0;
+    opacity: 0.7;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    color: #fff;
+  }
+  .chevron.rotated { transform: rotate(180deg); }
+
+  /* EXPANDED BODY */
+  .floor-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .floor-body.open { max-height: 2400px; }
+  .floor-body-inner {
+    padding: 0 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .floor-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin-bottom: 0.25rem;
+  }
+
+  /* SUB-CARDS */
+  .sub-card {
+    background: var(--white-10);
+    border: 1px solid var(--white-15);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    backdrop-filter: blur(4px);
+  }
+  .sub-card-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 0.55rem;
+  }
+  .sub-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+  .sub-card-body {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.65;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 640px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .floor-perry-badge { display: none; }
+    .floor-trigger { gap: 0.75rem; padding: 1rem 1.1rem; }
+    .three-r-bar { grid-template-columns: 1fr; }
+  }
+
+  .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 560px) { .status-grid { grid-template-columns: 1fr; } }
+
+  .status-card {
+    border-radius: 10px;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid;
+  }
+  .status-card.trapped {
+    background: rgba(0,0,0,0.22);
+    border-color: rgba(255,255,255,0.12);
+  }
+  .status-card.liberated {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.28);
+  }
+  .status-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.55rem;
+  }
+  .status-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+  .status-icon.trapped   { background: rgba(0,0,0,0.3); }
+  .status-icon.liberated { background: rgba(255,255,255,0.2); }
+  .status-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  .status-desc {
+    font-size: 0.855rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.6;
+  }
+
+  .neuro-callout {
+    background: var(--white-10);
+    border-left: 3px solid rgba(255,255,255,0.5);
+    border-radius: 0 8px 8px 0;
+    padding: 0.85rem 1rem;
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.6;
+  }
+  .neuro-callout strong { color: #fff; }
+
+  .section-eyebrow {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 0.6rem;
+  }
+
+  .legend-bar {
+    max-width: 900px;
+    margin: 1.5rem auto 0;
+    padding: 0 1rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.55);
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .instruction-bar {
+    max-width: 900px;
+    margin: 1.25rem auto 0;
+    padding: 0 1rem 0;
+    text-align: center;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.05em;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="master-header">
+  <p class="header-eyebrow">Precision Pathways · Clinical Education · Bruce Perry's Neurosequential Model</p>
+  <h1 class="header-title">The Liberation Pathway</h1>
+  <p class="header-subtitle">
+    An elementary school campus analogy for <strong>Bruce Perry's Neurosequential Model of Therapeutics.</strong>
+    The building can only function from the ground floor up. Healing follows the same order.
+  </p>
+  <div class="header-thesis">
+    <span>"You cannot learn or reason on Floor 4</span> if Floor 1 is actively on fire."
+    <br><small style="color:rgba(255,255,255,0.55);font-weight:400;font-size:0.85em;display:block;margin-top:0.3em;">Bruce Perry · Neurosequential Model of Therapeutics</small>
+  </div>
+  <div class="model-tag-row">
+    <span class="model-tag">Regulate</span>
+    <span class="model-tag">Relate</span>
+    <span class="model-tag">Reason</span>
+    <span class="model-tag">Bottom-Up Healing</span>
+    <span class="model-tag">Trauma-Informed Care</span>
+  </div>
+</header>
+
+<!-- THREE R's BANNER -->
+<div class="three-r-bar">
+  <div class="r-card regulate">
+    <div class="r-label">Regulate</div>
+    <div class="r-floors">Floors 1 &amp; 2 · Brainstem &amp; Body</div>
+  </div>
+  <div class="r-card relate">
+    <div class="r-label">Relate</div>
+    <div class="r-floors">Floor 3 · Limbic System</div>
+  </div>
+  <div class="r-card reason">
+    <div class="r-label">Reason</div>
+    <div class="r-floors">Floor 4 · Neocortex</div>
+  </div>
+</div>
+
+<div class="instruction-bar">
+  ↕ &nbsp; Click any floor to expand &nbsp; · &nbsp; Recovery moves ground floor upward
+</div>
+
+<!-- BUILDING -->
+<div class="building-wrapper" x-data="{ open: null, toggle(n){ this.open = this.open === n ? null : n } }">
+
+  <!-- FLOOR 1 -->
+  <div class="floor-card f1" :class="{ open: open === 1 }">
+    <button class="floor-trigger" @click="toggle(1)" :aria-expanded="open === 1">
+      <span class="floor-num">1</span>
+      <div class="floor-title-block">
+        <div class="floor-main-title">The Principal's Office &amp; Security Desk</div>
+        <div class="floor-subtitle">The Brainstem · Involuntary Survival &amp; Threat Detection</div>
+      </div>
+      <span class="floor-perry-badge">Regulate</span>
+      <svg class="chevron" :class="{ rotated: open === 1 }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+
+    <div class="floor-body" :class="{ open: open === 1 }">
+      <div class="floor-body-inner">
+        <div class="floor-divider"></div>
+
+        <div class="neuro-callout">
+          The brainstem is the most primitive and most powerful structure in the building. It runs automatically, below conscious awareness, and it has one job: keep the body alive. When it senses danger, it overrides every floor above it instantly.
+        </div>
+
+        <div class="sub-card">
+          <div class="sub-card-label">Key Staff Member</div>
+          <div class="sub-card-title">🚨 The Amygdala: The Smoke Detector</div>
+          <p class="sub-card-body">The Smoke Detector never sleeps. It constantly scans for threat. The moment it senses danger, real or perceived, it pulls the main breaker for the entire building, cutting power to every floor above and locking down the campus. It does not wait for confirmation. Speed is the point.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="sub-card">
+            <div class="sub-card-label">The Principal's Office</div>
+            <div class="sub-card-title">Where kids get sent when something goes wrong</div>
+            <p class="sub-card-body">Every child already carries a felt sense of dread about this room. It represents authority, consequence, and the fear of judgment. In a dysregulated nervous system, the body lives in that waiting-room feeling permanently.</p>
+          </div>
+          <div class="sub-card">
+            <div class="sub-card-label">The Security Desk</div>
+            <div class="sub-card-title">Who gets in. Who gets flagged.</div>
+            <p class="sub-card-body">The security desk decides what is safe before anything else can happen. A child who has experienced chronic threat learns to treat every person at the door as a potential danger, even when the school is calm.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-eyebrow">Campus Status</div>
+          <div class="status-grid">
+            <div class="status-card trapped">
+              <div class="status-head">
+                <div class="status-icon trapped">🚨</div>
+                <span class="status-label">Dysregulated</span>
+              </div>
+              <p class="status-desc">Sirens blaring. Alarms stuck on. Heart rate redlining, muscles braced, breath shallow. The entire building is locked down. No learning, no connection, no reasoning is possible while this floor is on fire.</p>
+            </div>
+            <div class="status-card liberated">
+              <div class="status-head">
+                <div class="status-icon liberated">🔓</div>
+                <span class="status-label">Regulated</span>
+              </div>
+              <p class="status-desc">The threat is neutralized. The alarm is reset. The body registers safety, breathing slows, heart rate settles, and power is restored to the floors above. Nothing else can happen until this step is complete.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOOR 2 -->
+  <div class="floor-card f2" :class="{ open: open === 2 }">
+    <button class="floor-trigger" @click="toggle(2)" :aria-expanded="open === 2">
+      <span class="floor-num">2</span>
+      <div class="floor-title-block">
+        <div class="floor-main-title">The Gymnasium, Hallways &amp; Nurse's Nap Room</div>
+        <div class="floor-subtitle">The Diencephalon · Sensory Routing, Rhythmic Movement &amp; Rest-Digest Cycles</div>
+      </div>
+      <span class="floor-perry-badge">Regulate</span>
+      <svg class="chevron" :class="{ rotated: open === 2 }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+
+    <div class="floor-body" :class="{ open: open === 2 }">
+      <div class="floor-body-inner">
+        <div class="floor-divider"></div>
+
+        <div class="neuro-callout">
+          The diencephalon sits just above the brainstem and manages the body's rhythms: sleep and wake cycles, appetite, sensory integration, and the patterned, repetitive movement that helps a dysregulated nervous system find its way back to calm. This is still regulation territory. Relating and reasoning cannot begin here.
+        </div>
+
+        <div class="grid-3">
+          <div class="sub-card">
+            <div class="sub-card-label">The Gymnasium</div>
+            <div class="sub-card-title">🏃 Rhythm &amp; Movement</div>
+            <p class="sub-card-body">Patterned, repetitive physical activity is one of the most powerful regulators of a dysregulated brainstem. Jumping, running, drumming, rocking, and dancing all work here. The body settles through movement before it can settle through words.</p>
+          </div>
+          <div class="sub-card">
+            <div class="sub-card-label">The Hallways</div>
+            <div class="sub-card-title">🚶 Sensory Flow</div>
+            <p class="sub-card-body">The hallways route everything that moves through the building. Sensory input, motor signals, and the body's basic coordinates all pass through here. When this floor is chaotic, kids bump into walls, can't find their classrooms, and feel lost in their own bodies.</p>
+          </div>
+          <div class="sub-card">
+            <div class="sub-card-label">The Nurse's Nap Room</div>
+            <div class="sub-card-title">😴 Rest &amp; Digest</div>
+            <p class="sub-card-body">The hypothalamus governs sleep-wake cycles, appetite, and the parasympathetic "rest and digest" response. When regulated, a child can actually rest here and recover. When dysregulated, this room sits empty or becomes the place where shutdown looks like sleep.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-eyebrow">Campus Status</div>
+          <div class="status-grid">
+            <div class="status-card trapped">
+              <div class="status-head">
+                <div class="status-icon trapped">🔒</div>
+                <span class="status-label">Dysregulated</span>
+              </div>
+              <p class="status-desc">Hallways are frantic or frozen. Kids can't transition between spaces. Sleep is disrupted, appetite is off, and the body can't find a steady rhythm. Everything feels too fast or completely shut down.</p>
+            </div>
+            <div class="status-card liberated">
+              <div class="status-head">
+                <div class="status-icon liberated">🌊</div>
+                <span class="status-label">Regulated</span>
+              </div>
+              <p class="status-desc">A steady cadence returns. Movement feels safe and rhythmic. The body can rest when it needs to, eat when it is hungry, and move between spaces without panic. The building is breathing again.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOOR 3 -->
+  <div class="floor-card f3" :class="{ open: open === 3 }">
+    <button class="floor-trigger" @click="toggle(3)" :aria-expanded="open === 3">
+      <span class="floor-num">3</span>
+      <div class="floor-title-block">
+        <div class="floor-main-title">The Library, Cafeteria &amp; Playground</div>
+        <div class="floor-subtitle">The Limbic System · Emotional Memory, Attachment &amp; Relational Belonging</div>
+      </div>
+      <span class="floor-perry-badge">Relate</span>
+      <svg class="chevron" :class="{ rotated: open === 3 }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+
+    <div class="floor-body" :class="{ open: open === 3 }">
+      <div class="floor-body-inner">
+        <div class="floor-divider"></div>
+
+        <div class="neuro-callout">
+          The limbic system is where emotional memory lives and where the hunger for belonging is formed. A child who could not safely attach to a caregiver carries that wound into every cafeteria, every playground, every story circle. Regulation must come first. Once the body is calm, this floor can begin to heal through safe, attuned relationship.
+        </div>
+
+        <div class="sub-card">
+          <div class="sub-card-label">Key Staff Member</div>
+          <div class="sub-card-title">🗂 The Hippocampus: The School Librarian</div>
+          <p class="sub-card-body">The Librarian's job is to timestamp every memory and file it correctly so the brain knows when something happened and that it is over. During chronic stress or trauma, the Librarian flees the building. Files get scattered with no dates on them, which is why old wounds can feel like they are happening right now. The smell of a certain cologne, a raised voice in the hallway, a classroom door slamming, any of these can pull an undated file and flood the whole system as if the original event is present tense.</p>
+        </div>
+
+        <div class="grid-3">
+          <div class="sub-card">
+            <div class="sub-card-label">The Library</div>
+            <div class="sub-card-title">📚 Story &amp; Emotional Memory</div>
+            <p class="sub-card-body">Where meaning gets made. Children learn to understand their own feelings, hear others' stories, and develop the emotional vocabulary that makes relationship possible. A traumatized child often finds this room overwhelming or completely inaccessible.</p>
+          </div>
+          <div class="sub-card">
+            <div class="sub-card-label">The Cafeteria</div>
+            <div class="sub-card-title">🍽 Belonging or Exile</div>
+            <p class="sub-card-body">Who do you sit with? Does anyone save you a seat? The cafeteria is one of the most socially loaded spaces in a child's life. For a child whose attachment system is dysregulated, it is a daily referendum on whether they belong at all.</p>
+          </div>
+          <div class="sub-card">
+            <div class="sub-card-label">The Playground</div>
+            <div class="sub-card-title">🛝 Play &amp; Social Attunement</div>
+            <p class="sub-card-body">Play is how children practice relationship. It builds reciprocity, empathy, emotional regulation through joy, and the capacity to repair ruptures. A child who cannot play freely is a child whose limbic system is still guarding the door.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-eyebrow">Campus Status</div>
+          <div class="status-grid">
+            <div class="status-card trapped">
+              <div class="status-head">
+                <div class="status-icon trapped">🔒</div>
+                <span class="status-label">Dysregulated</span>
+              </div>
+              <p class="status-desc">Deep isolation. The child eats alone, avoids the playground, or becomes aggressive in social spaces. Emotional memories flood without context. Old wounds feel present. Connection feels dangerous.</p>
+            </div>
+            <div class="status-card liberated">
+              <div class="status-head">
+                <div class="status-icon liberated">🌿</div>
+                <span class="status-label">Related</span>
+              </div>
+              <p class="status-desc">Safe, attuned relationships begin to rewrite the emotional record. The Librarian returns, files get dated, old memories lose their grip. The child can sit with someone, play without fear, and feel that belonging is real.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOOR 4 -->
+  <div class="floor-card f4" :class="{ open: open === 4 }">
+    <button class="floor-trigger" @click="toggle(4)" :aria-expanded="open === 4">
+      <span class="floor-num">4</span>
+      <div class="floor-title-block">
+        <div class="floor-main-title">The Classroom &amp; Art Room</div>
+        <div class="floor-subtitle">The Neocortex · Higher Reasoning, Learning, Creativity &amp; Future Thinking</div>
+      </div>
+      <span class="floor-perry-badge">Reason</span>
+      <svg class="chevron" :class="{ rotated: open === 4 }" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+
+    <div class="floor-body" :class="{ open: open === 4 }">
+      <div class="floor-body-inner">
+        <div class="floor-divider"></div>
+
+        <div class="neuro-callout">
+          The neocortex is the last structure to develop and the first to go offline under threat. Abstract thinking, language, empathy, planning, creativity, and the ability to imagine a future all live here. This floor is only fully accessible when every floor below it is settled. Talking to a child about their behavior while floors 1 through 3 are in lockdown is like lecturing an empty classroom.
+        </div>
+
+        <div class="grid-2">
+          <div class="sub-card">
+            <div class="sub-card-label">The Classroom</div>
+            <div class="sub-card-title">📖 Learning &amp; Reasoning</div>
+            <p class="sub-card-body">Reading, writing, math, comprehension, cause and effect, consequence, and the capacity to sit still and absorb new information. None of this is available to a child whose lower floors are still on alert. The traditional demand to "just pay attention" misunderstands the building entirely.</p>
+          </div>
+          <div class="sub-card">
+            <div class="sub-card-label">The Art Room</div>
+            <div class="sub-card-title">🎨 Creativity &amp; Future Vision</div>
+            <p class="sub-card-body">The ability to imagine something that does not yet exist, to make something new, to envision a different future for yourself. This is the highest function of the neocortex and the last to come back online after trauma. Its return is one of the clearest signs of genuine healing.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-eyebrow">Campus Status</div>
+          <div class="status-grid">
+            <div class="status-card trapped">
+              <div class="status-head">
+                <div class="status-icon trapped">🔒</div>
+                <span class="status-label">Dysregulated</span>
+              </div>
+              <p class="status-desc">Desks are empty. The child may be physically in the room but is entirely unreachable. No new information is retained, no future can be imagined, and no amount of instruction, reward, or consequence will change that while lower floors are screaming.</p>
+            </div>
+            <div class="status-card liberated">
+              <div class="status-head">
+                <div class="status-icon liberated">✨</div>
+                <span class="status-label">Reasoning</span>
+              </div>
+              <p class="status-desc">The classroom comes alive. The child can learn, reflect, create, and begin to author a story about who they are and who they might become. This floor was always there. It just needed the building beneath it to be safe first.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LEGEND -->
+<div class="legend-bar" style="margin-top:2rem;">
+  <div class="legend-item">
+    <div class="legend-dot" style="background:linear-gradient(135deg,#DC2626,#F97316)"></div>
+    <span>Floor 1 · Brainstem · Regulate</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:linear-gradient(135deg,#F97316,#EAB308)"></div>
+    <span>Floor 2 · Diencephalon · Regulate</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:linear-gradient(135deg,#22C55E,#15803D)"></div>
+    <span>Floor 3 · Limbic · Relate</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:linear-gradient(135deg,#3B82F6,#8B5CF6)"></div>
+    <span>Floor 4 · Neocortex · Reason</span>
+  </div>
+</div>
+
+<p style="text-align:center;margin-top:2rem;font-size:0.72rem;color:rgba(255,255,255,0.25);letter-spacing:0.07em;">
+  PRECISION PATHWAYS &nbsp;·&nbsp; LIBERATION PATHWAY MODEL &nbsp;·&nbsp; BRIAN M. LYNCH, LCDC
+</p>
+
+</body>
+</html>
